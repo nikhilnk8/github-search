@@ -9,17 +9,36 @@ function App() {
   const [publicrepos, setpublicrepos] = useState("");
   const [link, setlink] = useState("");
   const [image, setimage] = useState("");
+  const [location, setLocation] = useState("");
+  const [name, setName] = useState("");
+  const [followers, setFollowers] = useState(0);
+  const [following, setFollowing] = useState(0);
   async function get_user(username) {
-    const response = await Axios.get(
-      `https://api.github.com/users/${username}`
-    );
-    console.log(response.data);
-    setusername(
-      response.data.name == null ? response.data.login : response.data.name
-    );
-    setpublicrepos(response.data.public_repos);
-    setlink(response.data.html_url);
-    setimage(response.data.avatar_url);
+    try {
+      const response = await Axios.get(
+        `https://api.github.com/users/${username}`
+      );
+      console.log(response.data);
+      setusername(
+        response.data.name == null ? response.data.login : response.data.name
+      );
+      setpublicrepos(response.data.public_repos);
+      setlink(response.data.html_url);
+      setimage(response.data.avatar_url);
+      setLocation(response.data.location);
+      setName(response.data.name);
+      setFollowers(response.data.followers);
+      setFollowing(response.data.following);
+    } catch (error) {
+      setusername("");
+      setpublicrepos("");
+      setlink("");
+      setimage("https://miro.medium.com/max/800/1*hFwwQAW45673VGKrMPE2qQ.png");
+      setLocation("");
+      setName("");
+      setFollowers("");
+      setFollowing("");
+    }
   }
 
   return (
@@ -32,6 +51,10 @@ function App() {
           image={image}
           link={link}
           publicrepos={publicrepos}
+          location={location}
+          name={name}
+          followers={followers}
+          following={following}
         />
       </header>
     </div>

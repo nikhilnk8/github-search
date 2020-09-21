@@ -21,6 +21,8 @@
   border: 0;
   margin: 0 5px;
   border-radius: 5px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  width: 50px;
 }
 .search > button:hover {
   height: 40px;
