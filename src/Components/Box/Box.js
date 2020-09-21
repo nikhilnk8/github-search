@@ -17,7 +17,7 @@ function Box({
       <img
         src={image ? image : "logo512.png"}
         alt="logo512.png"
-        className="box__img"
+        className="box__img App-logo"
       ></img>
       {username ? (
         <div className="box__detailDiv">
