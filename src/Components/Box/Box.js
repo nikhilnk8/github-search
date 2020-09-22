@@ -14,11 +14,20 @@ function Box({
 }) {
   return (
     <div className="box">
-      <img
-        src={image ? image : "logo512.png"}
-        alt="logo512.png"
-        className="box__img App-logo"
-      ></img>
+      {image ? (
+        <img
+          src={image ? image : "logo512.png"}
+          alt="logo512.png"
+          className="box__img"
+        />
+      ) : (
+        <img
+          src={image ? image : "logo512.png"}
+          alt="logo512.png"
+          className="box__img App-logo"
+        />
+      )}
+
       {username ? (
         <div className="box__detailDiv">
           <p>{name ? name : username}</p>
