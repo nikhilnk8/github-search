@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import "./App.css";
 import Box from "./Components/Box/Box";
 import Search from "./Components/Search/Search";
+import ClipLoader from "react-spinners/GridLoader";
+import { css } from "@emotion/core";
 
 function App() {
   const [username, setusername] = useState("");
@@ -13,8 +15,10 @@ function App() {
   const [name, setName] = useState("");
   const [followers, setFollowers] = useState(0);
   const [following, setFollowing] = useState(0);
+  const [loading, setLoading] = useState(false);
   async function get_user(username) {
     try {
+      setLoading(true);
       const response = await Axios.get(
         `https://api.github.com/users/${username}`
       );
@@ -29,6 +33,7 @@ function App() {
       setName(response.data.name);
       setFollowers(response.data.followers);
       setFollowing(response.data.following);
+      setLoading(false);
     } catch (error) {
       setusername("");
       setpublicrepos("");
@@ -38,24 +43,34 @@ function App() {
       setName("");
       setFollowers("");
       setFollowing("");
+      setLoading(false);
     }
   }
+
+  const override = css`
+    margin: 210px auto;
+    border-color: red;
+  `;
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>GITHUB SEARCH</h1>
         <Search get_user={get_user} />
-        <Box
-          username={username}
-          image={image}
-          link={link}
-          publicrepos={publicrepos}
-          location={location}
-          name={name}
-          followers={followers}
-          following={following}
-        />
+        {loading ? (
+          <ClipLoader color="white" loading={loading} css={override} />
+        ) : (
+          <Box
+            username={username}
+            image={image}
+            link={link}
+            publicrepos={publicrepos}
+            location={location}
+            name={name}
+            followers={followers}
+            following={following}
+          />
+        )}
       </header>
     </div>
   );

@@ -10,6 +10,7 @@
   margin-bottom: 20px;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   letter-spacing: normal;
+  box-shadow: 0 0 10px 1px rgb(82, 82, 82);
 }
 
 .box__img {
