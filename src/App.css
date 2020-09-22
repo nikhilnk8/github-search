@@ -1,6 +1,7 @@
 .App {
   text-align: center;
   min-width: 500px;
+  width: 100%;
   display: flex;
   flex: 1;
   align-self: center;
