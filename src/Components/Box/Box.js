@@ -3,14 +3,16 @@ import "./Box.css";
 import { ImLocation, ImGit } from "react-icons/im";
 
 function Box({
-  username,
-  publicrepos,
-  image,
-  link,
-  location,
-  name,
-  followers,
-  following,
+  user: {
+    username,
+    publicrepos,
+    image,
+    link,
+    location,
+    name,
+    followers,
+    following,
+  },
 }) {
   return (
     <div className="box">

@@ -1,21 +1,30 @@
 import Axios from "axios";
-import React, { useState } from "react";
+import React, { useReducer, useState } from "react";
 import "./App.css";
 import Box from "./Components/Box/Box";
 import Search from "./Components/Search/Search";
 import ClipLoader from "react-spinners/GridLoader";
 import { css } from "@emotion/core";
+import { reducer } from "./reducers/userReducer";
 
 function App() {
-  const [username, setusername] = useState("");
-  const [publicrepos, setpublicrepos] = useState("");
-  const [link, setlink] = useState("");
-  const [image, setimage] = useState("");
-  const [location, setLocation] = useState("");
-  const [name, setName] = useState("");
-  const [followers, setFollowers] = useState(0);
-  const [following, setFollowing] = useState(0);
   const [loading, setLoading] = useState(false);
+
+  const userState = {
+    username: "",
+    publicrepos: 0,
+    link: "",
+    image: "",
+    location: "",
+    name: "",
+    followers: 0,
+    following: 0,
+  };
+
+  // using reducer
+  const [user, dispatch] = useReducer(reducer, userState);
+
+  // fetching data here
   async function get_user(username) {
     try {
       setLoading(true);
@@ -23,26 +32,31 @@ function App() {
         `https://api.github.com/users/${username}`
       );
       console.log(response.data);
-      setusername(
-        response.data.name == null ? response.data.login : response.data.name
-      );
-      setpublicrepos(response.data.public_repos);
-      setlink(response.data.html_url);
-      setimage(response.data.avatar_url);
-      setLocation(response.data.location);
-      setName(response.data.name);
-      setFollowers(response.data.followers);
-      setFollowing(response.data.following);
+      const gotUser = {
+        username: response.data.login,
+        publicrepos: response.data.public_repos,
+        link: response.data.html_url,
+        image: response.data.avatar_url,
+        location: response.data.location,
+        name: response.data.name,
+        followers: response.data.followers,
+        following: response.data.following,
+      };
+
+      dispatch({ type: "CHANGE_USER", payload: gotUser });
       setLoading(false);
     } catch (error) {
-      setusername("");
-      setpublicrepos("");
-      setlink("");
-      setimage("https://miro.medium.com/max/800/1*hFwwQAW45673VGKrMPE2qQ.png");
-      setLocation("");
-      setName("");
-      setFollowers("");
-      setFollowing("");
+      const gotUser = {
+        username: "",
+        publicrepos: "",
+        link: "",
+        image: "https://miro.medium.com/max/800/1*hFwwQAW45673VGKrMPE2qQ.png",
+        location: "",
+        name: "",
+        followers: "",
+        following: "",
+      };
+      dispatch({ type: "CHANGE_USER", payload: gotUser });
       setLoading(false);
     }
   }
@@ -60,16 +74,7 @@ function App() {
         {loading ? (
           <ClipLoader color="white" loading={loading} css={override} />
         ) : (
-          <Box
-            username={username}
-            image={image}
-            link={link}
-            publicrepos={publicrepos}
-            location={location}
-            name={name}
-            followers={followers}
-            following={following}
-          />
+          <Box user={user} />
         )}
       </header>
     </div>
